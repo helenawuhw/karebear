@@ -1,28 +1,31 @@
 html.
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="../images/favicon.ico">
+    <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
     <link href='https://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>
-
+    <link href='https://fonts.googleapis.com/css?family=Chewy' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Fredoka+One' rel='stylesheet' type='text/css'>
     <title>KareBear</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="../stylesheets/bootstrap-theme.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <!--<link href="../stylesheets/bootstrap-theme.css" rel="stylesheet">-->
     <!-- Custom styles for this template -->
     <link href="../stylesheets/jumbotron-narrow.css" rel="stylesheet">
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <link href="../stylesheets/index.css" rel="stylesheet">
-
-    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
   </head>
 
   <body>
-
     <div class="container">
       <div class="header clearfix">
         <nav>
@@ -30,57 +33,150 @@ html.
             <li role="presentation"><a href="helloworld">Logout</a></li>
           </ul>
         </nav>
-        <h3 class="text-muted">Kare Bear</h3>
+        <h3 class="text-muted">KareBear</h3>
       </div>
 
 
 
       <div>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sit amet mi in magna cursus pretium at et augue. Pellentesque ullamcorper feugiat tristique. Integer lacinia turpis quis eleifend tempor. Nullam imperdiet gravida mi, vel maximus eros volutpat in. Vestibulum et molestie urna. Duis faucibus sem nec mollis efficitur. Nam lorem libero, dignissim blandit pretium nec, laoreet sit amet velit. Aliquam congue turpis at fringilla laoreet. Vivamus a urna eu orci tincidunt tempor. Nulla facilisi. Phasellus ac finibus ligula, viverra bibendum orci. Curabitur sit amet pharetra sem. Ut laoreet viverra ipsum, sit amet consequat sem lobortis sit amet.Nunc finibus elit a magna feugiat eleifend. Ut sed egestas ipsum. Sed faucibus nisi at bibendum tincidunt. In sagittis nunc velit, nec viverra justo cursus eget. Donec malesuada et dolor nec pharetra. Nunc erat sem, pharetra venenatis pellentesque nec, tincidunt vel erat. Etiam volutpat nisl ac turpis aliquet laoreet.
-
-
+        <p>Kids don't need more tablets, they need care.</p>
+        <p>What happened to the good old days?</p>
+        <p>Kare Bear uses technology to help your kid.</p>
       </div>
 
 
 
-
-      <script>
-        $('#myTabs a').click(function (e) {
-          e.preventDefault()
-          $(this).tab('show')
-        })
-        $('#myTabs a:first').tab('show')
-        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-          e.target // newly activated tab
-          e.relatedTarget // previous active tab
-        })
-      </script>
+      <br><br><br>
+      <div id="baby-says">
+        <input type = 'text' id='received' size="35" placeholder = 'KareBear wanted you to know that...'>
+        <br>
+        <button id="translate" class="btn btn-default">Translate</button>
+        <div id="translation"></div>
+      </div>
 
       <div class="row marketing">
         <div class="col-lg-12">
           <div id="task-controller">
-          <!-- Nav tabs -->
-          <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
-            <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
-            <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Messages</a></li>
+          <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#home">Speak</a></li>
+            <li><a data-toggle="tab" href="#menu1">Teach Math</a></li>
+            <li><a data-toggle="tab" href="#menu2">Sing</a></li>
           </ul>
 
-          <!-- Tab panes -->
           <div class="tab-content">
-            <div role="tabpanel" class="tab-pane fade active" id="home">Cras justo odio, dapibus ac facilisis in, egestas eget quam. </div>
-            <div role="tabpanel" class="tab-pane fade" id="profile">.Cras justo odio, dapibus ac facilisis in, egestas eget quam. .</div>
-            <div role="tabpanel" class="tab-pane fade" id="messages">Cras justo odio, dapibus ac facilisis in, egestas eget quam. </div>
+            <div id="home" class="tab-pane fade in active">
+              <h3>Tell Kare Bear What To Say</h3>
+              <div id='messagesDiv'>
+                <input type='text' id='content' height="50%" placeholder='Your Message'>
+                <button class="btn btn-default" id="message_send">Send</button>
+              </div>
+            </div>
+            <div id="menu1" class="tab-pane fade">
+              <h3>Teach Math</h3>
+              <div id='arithmetic'>
+                <input type='text' id='arith1' placeholder='1'>
+                <select id='operator'>
+                  <option value="+">+</option>
+                  <option value="=">-</option>
+                  <option value="*">*</option>
+                  <option value="/">/</option>
+                </select>
+                <input type='text' id='arith2' placeholder='1'>
+                <button id="arith_send" class="btn btn-default">Send</button>
+              </div>
+            </div>
+            <div id="menu2" class="tab-pane fade">
+              <h3>Play a Song</h3>
+              <div id='musicDiv'>
+                <input type='text' id='music' placeholder='Song Name'>
+                <button id="music_send" class="btn btn-default">Send</button>
+              </div>
+            </div>
           </div>
 
           <br><br><br><br><br><br><br>
-        </div>
+          </div>
         </div>
 
       </div>
+          <script>
+            function translateText(response) {
+                //console.log(response);
+                document.getElementById("translation").innerHTML = response.data.translations[0].translatedText;
+              }
 
+              // When we add this script to the head, the request is sent off.
+              
+
+            $('#translate').click(function (e){
+              var newScript = document.createElement('script');
+              newScript.type = 'text/javascript';
+              document.getElementsByTagName('head')[0].appendChild(newScript);
+              var sourceText = escape($('#received').val());
+              // WARNING: be aware that YOUR-API-KEY inside html is viewable by all your users.
+              // Restrict your key to designated domains or use a proxy to hide your key
+              // to avoid misusage by other party.
+              var source = 'https://www.googleapis.com/language/translate/v2?key=AIzaSyDFprGWF6GaBExk9oHT4_qId1ku-gxffL8&source=zh-CN&target=en&callback=translateText&q=' + sourceText;
+              newScript.src = source;
+            })
+
+
+            var myDataRef = new Firebase('https://fiery-heat-1818.firebaseio.com/');
+
+
+            /*$('#messageInput').keypress(function (e) {
+              if (e.keyCode == 13) {
+                var name = $('#nameInput').val();
+                var text = $('#messageInput').val();
+                myDataRef.push({name: name, text: text});
+                $('#messageInput').val('');
+              }
+            });*/
+
+            myDataRef.on('child_added', function(snapshot) {
+              var msg = snapshot.val();
+              if (msg.name == 'kid'){
+                var rec = msg.text;
+                $('#received').val(rec);
+              }
+            })
+
+            $('#message_send').click(function (e){
+                  var words = $('#content').val();
+                  myDataRef.push({name: "message", text: words});
+                  $('#content').val('');
+                }
+              );
+
+            $('#arith_send').click(function (e){
+                var first = $('#arith1').val();
+                var second = $('#arith2').val();
+                var op = $('#operator').val();
+                var problem = first + op + second;
+                myDataRef.push({name:"arithmetic", text: problem});
+
+            })
+
+            $('#music_send').click(function (e){
+                  var songname = $('#music').val();
+                  myDataRef.push({name: "music", text: songname});
+                  $('#music').val('');
+                }
+              );
+
+            
+
+
+            /*myDataRef.on('child_added', function(snapshot) {
+              var message = snapshot.val();
+              displayChatMessage(message.name, message.text);
+            });
+            function displayChatMessage(name, text) {
+              $('<div/>').text(text).prepend($('<em/>').text(name+': ')).appendTo($('#messagesDiv'));
+              $('#messagesDiv')[0].scrollTop = $('#messagesDiv')[0].scrollHeight;}*/
+          </script>
       <footer class="footer">
-        <p>&copy; Kare Bear</p>
+        <p>&copy; KareBear</p>
         <p>-   Made at HackRU Fall 2015</p>
       </footer>
 
