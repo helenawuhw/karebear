@@ -126,11 +126,7 @@
       Stop
     </button>
   </div>
-  <div class="sidebyside">
-    <button id="speak_button" onclick="speak()">
-      Speak
-    </button>
-  </div>
+
   <p>
   <div id="div_language">
     <select id="select_language" onchange="updateCountry()"></select>
@@ -139,6 +135,7 @@
   </div>
 </div>
 <script>
+
 var langs =
 [['Afrikaans',       ['af-ZA']],
  ['Bahasa Indonesia',['id-ID']],
@@ -210,6 +207,7 @@ select_language.selectedIndex = 6;
 updateCountry();
 select_dialect.selectedIndex = 6;
 showInfo('info_start');
+
 function updateCountry() {
   for (var i = select_dialect.options.length - 1; i >= 0; i--) {
     select_dialect.remove(i);
@@ -274,6 +272,8 @@ if (!('webkitSpeechRecognition' in window)) {
       window.getSelection().addRange(range);
     }
   };
+
+
   recognition.onresult = function(event) {
     for (var i = event.resultIndex; i < event.results.length; ++i) {
       if (event.results[i].isFinal) {
@@ -288,7 +288,13 @@ if (!('webkitSpeechRecognition' in window)) {
       showButtons('inline-block');
     }
     final_transcript = '';
-  };
+    $('#hidden_text').on('change',function(){
+  var transcribed = $('#hidden_text').val();
+  console.log("qqqq");
+  myDataRef.push({name: "kid", text: transcribed});
+  });
+    $('#hidden_text').val(message).trigger('change');
+      };
 }
 function upgrade() {
   showInfo('info_upgrade');
@@ -441,11 +447,9 @@ myDataRef.on('child_added', function(snapshot) {
         }
     });
 
-
-
 </script>
-
+<input type='text' id='hidden_text' placeholder='baby talks' hidden>
 <div id="output"></div>
-<iframe src = "" id = "music-frame" hidden></iframe>
+<iframe src = "" id = "music-frame"></iframe>
 </body>
 </html>
