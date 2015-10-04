@@ -1,6 +1,10 @@
 <!DOCTYPE html>
+<html>
+<head>
 <meta charset="utf-8">
 <title>Web Speech API Demo</title>
+<script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
 <style>
   * {
     font-family: Verdana, Arial, sans-serif;
@@ -80,6 +84,9 @@
     padding: 0;
   }
 </style>
+
+</head>
+<body>
 <h1 class="center" id="headline">
   <a href="http://dvcs.w3.org/hg/speech-api/raw-file/tip/speechapi.html">
     Web Speech API</a> Demonstration</h1>
@@ -372,8 +379,73 @@ function showButtons(style) {
 
 function speak(){
   console.log(message);
-  var msg = new SpeechSynthesisUtterance(message);
-    window.speechSynthesis.speak(msg);
+  var m = new SpeechSynthesisUtterance(message);
+    window.speechSynthesis.speak(m);
 }
 
+function speak_what(what){
+  console.log(what);
+  var m = new SpeechSynthesisUtterance(what);
+    window.speechSynthesis.speak(m);
+}
+
+
+var myDataRef = new Firebase('https://fiery-heat-1818.firebaseio.com/');
+
+myDataRef.on('child_added', function(snapshot) {
+        var msg = snapshot.val();
+        if (msg.name == 'message'){
+          var what = msg.text;
+          $('#output').text(what);
+          speak_what(what);
+        }
+        if (msg.name == 'arithmetic'){
+          var problem = msg.text;
+          console.log(problem);
+          var p = "What is " + problem + "?"
+          $('#output').text(p);
+          speak_what(p);
+        }
+        if (msg.name == 'music'){
+              var songName = msg.text;
+
+              // Since spaces don't work in URLs, replace all of them with %20
+              var song = songName.split(' ').join('%20');
+              console.log(song);
+              
+              //Un-comment and complete the ajax call(s)
+              
+              $.ajax({
+                // Since this is an external URL, we can no longer specify only the relative path
+                // Use this documentation as a reference: https://developer.spotify.com/web-api/search-item/
+                url: "https://api.spotify.com/v1/search?q="+song+"&type=track",
+                method: "GET",
+                dataType: "JSON", // Spotify's API returns large JSON objects because those are easier to parse through
+                success: function(data) {
+                  
+                  var track_url = data["tracks"]["items"]["0"]["preview_url"];
+                  console.log(track_url);
+                  // You can see more attributes that we can get from this returned JSON data via console.log
+                  // Check it out!
+                  console.log(data);
+
+                  $("#music-frame").show();
+                  $("#music-frame").attr("src", track_url);
+
+                },
+                error: function(error) {
+                  console.log(error);
+                }
+
+              });
+        }
+    });
+
+
+
 </script>
+
+<div id="output"></div>
+<iframe src = "" id = "music-frame" hidden></iframe>
+</body>
+</html>
